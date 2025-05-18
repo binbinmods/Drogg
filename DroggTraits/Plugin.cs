@@ -1,0 +1,83 @@
+﻿using BepInEx;
+using BepInEx.Logging;
+using HarmonyLib;
+using static Obeliskial_Essentials.Essentials;
+using Obeliskial_Essentials;
+using System.IO;
+using UnityEngine;
+using System;
+using static Drogg.Traits;
+using BepInEx.Configuration;
+
+namespace Drogg
+{
+    [BepInPlugin(PluginInfo.PLUGIN_GUID, PluginInfo.PLUGIN_NAME, PluginInfo.PLUGIN_VERSION)]
+    [BepInDependency("com.stiffmeds.obeliskialessentials")]
+    [BepInDependency("com.stiffmeds.obeliskialcontent")]
+    [BepInProcess("AcrossTheObelisk.exe")]
+    public class Plugin : BaseUnityPlugin
+    {
+        internal int ModDate = int.Parse(DateTime.Today.ToString("yyyyMMdd"));
+        private readonly Harmony harmony = new(PluginInfo.PLUGIN_GUID);
+        internal static ManualLogSource Log;
+
+        public static ConfigEntry<bool> EnableDebugging { get; set; }
+
+
+        public static string characterName = "Drogg";
+        public static string heroName = characterName;
+
+        public static string subclassName = "Yeti"; // needs caps
+
+        public static string subclassname = subclassName.ToLower();
+        public static string itemStem = subclassname;
+        public static string debugBase = "Binbin - Testing " + characterName + " ";
+
+        private void Awake()
+        {
+            Log = Logger;
+            Log.LogInfo($"{PluginInfo.PLUGIN_GUID} {PluginInfo.PLUGIN_VERSION} has loaded!");
+
+            EnableDebugging = Config.Bind(new ConfigDefinition(subclassName, "Enable Debugging"), true, new ConfigDescription("Enables debugging logs."));
+
+            // register with Obeliskial Essentials
+            RegisterMod(
+                _name: PluginInfo.PLUGIN_NAME,
+                _author: "binbin",
+                _description: "Drogg, the Yeti.",
+                _version: PluginInfo.PLUGIN_VERSION,
+                _date: ModDate,
+                _link: @"https://github.com/binbinmods/Drogg",
+                _contentFolder: "Drogg",
+                _type: ["content", "hero", "trait"]
+            );
+            // apply patches
+            string text = "Shuffle your Vanish Pile into your Draw Pile.\n";
+            // medsTexts[itemStem + "Yetiformula"] = text;
+            // medsTexts[itemStem + "Yetiformulaa"] = text;
+            // medsTexts[itemStem + "Yetiformulab"] = text;
+            CardDescriptionNew.AddTextToCardDescription(text, CardDescriptionNew.TextLocation.Beginning, "Yetiformula");
+            CardDescriptionNew.AddTextToCardDescription(text, CardDescriptionNew.TextLocation.Beginning, "Yetiformulaa");
+            CardDescriptionNew.AddTextToCardDescription(text, CardDescriptionNew.TextLocation.Beginning, "Yetiformulab");
+
+            harmony.PatchAll();
+        }
+
+        internal static void LogDebug(string msg)
+        {
+            if (EnableDebugging.Value)
+            {
+                Log.LogDebug(debugBase + msg);
+            }
+
+        }
+        internal static void LogInfo(string msg)
+        {
+            Log.LogInfo(debugBase + msg);
+        }
+        internal static void LogError(string msg)
+        {
+            Log.LogError(debugBase + msg);
+        }
+    }
+}
