@@ -2,11 +2,11 @@
     "ActionSound": "",
     "AutoUnlock": true,
     "Cards": [
-        "{\n    \"UnitsInDeck\": 2,\n    \"Card\": \"icicle\"\n}",
-        "{\n    \"UnitsInDeck\": 4,\n    \"Card\": \"icebarrier\"\n}",
-        "{\n    \"UnitsInDeck\": 2,\n    \"Card\": \"icyveins\"\n}",
-        "{\n    \"UnitsInDeck\": 1,\n    \"Card\": \"frostnova\"\n}",
-        "{\n    \"UnitsInDeck\": 4,\n    \"Card\": \"frostbolt\"\n}",
+        "{\n    \"UnitsInDeck\": 3,\n    \"Card\": \"icicle\"\n}",
+        "{\n    \"UnitsInDeck\": 3,\n    \"Card\": \"icebarrier\"\n}",
+        "{\n    \"UnitsInDeck\": 3,\n    \"Card\": \"icyveins\"\n}",
+        "{\n    \"UnitsInDeck\": 2,\n    \"Card\": \"frostnova\"\n}",
+        "{\n    \"UnitsInDeck\": 2,\n    \"Card\": \"frostbolt\"\n}",
         "{\n    \"UnitsInDeck\": 1,\n    \"Card\": \"iciclebarrage\"\n}",
         "{\n    \"UnitsInDeck\": 1,\n    \"Card\": \"yetiavalanche\"\n}"
     ],

@@ -16,7 +16,7 @@
     "UpgradesTo1": "yetiavalanchea",
     "UpgradesTo2": "yetiavalancheb",
     "UpgradesToRare": "",
-    "CardClass": "Mage",
+    "CardClass": "Special",
     "CardType": "Cold_Spell",
     "CardTypeAux": [
         "Spell"

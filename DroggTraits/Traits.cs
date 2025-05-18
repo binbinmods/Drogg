@@ -108,6 +108,7 @@ namespace Drogg
                 if (CanIncrementTraitActivations(traitId) && _castedCard.HasCardType(Enums.CardType.Cold_Spell))
                 {
                     LogDebug($"Handling Trait {traitId}: {traitName}");
+                    List<Character> highestBlockHeroes = [];
                     Character highestBlockHero = null;
                     int curBlock = 0;
                     foreach (Character hero in teamHero)
@@ -115,12 +116,20 @@ namespace Drogg
                         if (IsLivingHero(hero) && hero.GetAuraCharges("block") > curBlock)
                         {
                             curBlock = hero.GetAuraCharges("block");
-                            highestBlockHero = hero;
+                            highestBlockHeroes = [hero];
+                        }
+                        else if (IsLivingHero(hero) && hero.GetAuraCharges("block") == curBlock)
+                        {
+                            highestBlockHeroes.Add(hero);
                         }
                     }
-                    if (highestBlockHero == null)
+                    if (highestBlockHeroes == null)
                     {
                         return;
+                    }
+                    else
+                    {
+                        GetRandomCharacter(highestBlockHeroes.ToArray());
                     }
                     _character.ModifyEnergy(1);
                     highestBlockHero.SetAuraTrait(_character, "fortify", 1);
