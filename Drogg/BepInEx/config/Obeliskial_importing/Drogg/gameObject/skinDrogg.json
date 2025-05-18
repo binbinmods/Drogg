@@ -1,7 +1,7 @@
 {
     "NewGameObjectID": "skindrogg",
     "BaseGameObjectID": "osoboss",
-    "SpriteToUse": "",
+    "SpriteToUse": "droggSkin2",
     "ScaleX": 1,
     "ScaleY": 1,
     "Flip": true

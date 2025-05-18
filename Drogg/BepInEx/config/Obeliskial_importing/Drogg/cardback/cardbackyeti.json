@@ -4,7 +4,7 @@
     "CardbackID": "cardbackyeti",
     "CardbackName": "Default",
     "CardbackOrder": 1000,
-    "CardbackSprite": "cardbackyeti",
+    "CardbackSprite": "CardBackMage",
     "CardbackSubclass": "yeti",
     "Locked": false,
     "ObeliskLevel": 0,

@@ -97,7 +97,7 @@
     "TransferCurses": 0,
     "TargetPosition": "Anywhere",
     "TargetSide": "Enemy",
-    "TargetType": "Single",
+    "TargetType": "Global",
     "Vanish": true,
     "GoldGainQuantity": 0,
     "ShardsGainQuantity": 0,

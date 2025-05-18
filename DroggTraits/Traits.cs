@@ -182,22 +182,16 @@ namespace Drogg
             return true;
         }
 
-        [HarmonyPrefix]
-        [HarmonyPatch(typeof(Character), "GetEnchantModifiedDamageType")]
-        public static bool GetEnchantModifiedDamageType(
+        [HarmonyPostfix]
+        [HarmonyPatch(typeof(Character), "GetItemModifiedDamageType")]
+        public static void GetItemModifiedDamageTypePostfix(
             ref Character __instance,
-            ref Enums.DamageType __result,
-            Enums.EventActivation theEvent,
-            Character target = null,
-            int auxInt = 0,
-            string auxString = "")
+            ref Enums.DamageType __result)
         {
-            if (__instance.HaveTrait(trait0))
+            if (__instance.HaveTrait(trait0) && __result == Enums.DamageType.None)
             {
                 __result = Enums.DamageType.Blunt;
-                return false;
             }
-            return true;
         }
 
         [HarmonyPrefix]
@@ -205,30 +199,41 @@ namespace Drogg
         public static void CastCardPrefix(
             MatchManager __instance,
             ref CardData _card,
-            CardItem theCardItem = null,
+            ref CardItem theCardItem,
             bool _automatic = false,
             int _energy = -1,
             int _posInTable = -1,
             bool _propagate = true)
         {
             Hero currentHero = __instance.GetHeroHeroActive();
-            if (currentHero == null || _card == null)
+            LogDebug("CastCardPrefix");
+            if (theCardItem == null)
             {
+                LogDebug("CastCardPrefix - Null Card");
                 return;
             }
-            if (_card.HasCardType(Enums.CardType.Cold_Spell) && currentHero.HaveTrait(trait2a))
+            if (currentHero == null)
             {
-                LogDebug($"{trait2a} - Adding Ranged Attack card type to {_card.Id}");
-                List<Enums.CardType> types = [.. _card.CardTypeAux];
-                types.Add(Enums.CardType.Ranged_Attack);
-                _card.CardTypeAux = [.. types];
+                LogDebug("CastCardPrefix - Null Hero ");
+                return;
             }
-            if (_card.HasCardType(Enums.CardType.Cold_Spell) && currentHero.HaveTrait(trait2b))
+            if (theCardItem.CardData.HasCardType(Enums.CardType.Cold_Spell) && currentHero.HaveTrait(trait2a))
             {
-                LogDebug($"{trait2b} - Adding Defense card type to {_card.Id}");
-                List<Enums.CardType> types = [.. _card.CardTypeAux];
+                LogDebug($"{trait2a} - Adding Ranged Attack card type to {theCardItem.CardData.Id}");
+                List<Enums.CardType> types = [.. theCardItem.CardData.CardTypeAux];
+                types.Add(Enums.CardType.Ranged_Attack);
+                theCardItem.CardData.CardTypeAux = [.. types];
+            }
+            if (theCardItem.CardData.HasCardType(Enums.CardType.Cold_Spell) && currentHero.HaveTrait(trait2b))
+            {
+                LogDebug($"{trait2b} - Adding Defense card type to {theCardItem.CardData.Id}");
+                List<Enums.CardType> types = [.. theCardItem.CardData.CardTypeAux];
                 types.Add(Enums.CardType.Defense);
-                _card.CardTypeAux = [.. types];
+                theCardItem.CardData.CardTypeAux = [.. types];
+            }
+            else
+            {
+                LogDebug("CastCardPrefix - Not Cold Spell");
             }
 
         }

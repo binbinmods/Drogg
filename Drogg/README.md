@@ -1,6 +1,6 @@
 # Drogg, the Yeti
 
-A hero mod, introducing Drogg, corrupted mage who specializes in transmuting properties of allies and enemies.
+A hero mod, introducing Drogg, Blunt and Cold specialized Mage.
 
 This currently does not include any events or quests related to Drogg other than those available to all heroes or all heroes of a specific class.
 
