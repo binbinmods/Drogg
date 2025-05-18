@@ -51,14 +51,7 @@ namespace Drogg
                 _contentFolder: "Drogg",
                 _type: ["content", "hero", "trait"]
             );
-            // apply patches
-            string text = "Shuffle your Vanish Pile into your Draw Pile.\n";
-            // medsTexts[itemStem + "Yetiformula"] = text;
-            // medsTexts[itemStem + "Yetiformulaa"] = text;
-            // medsTexts[itemStem + "Yetiformulab"] = text;
-            CardDescriptionNew.AddTextToCardDescription(text, CardDescriptionNew.TextLocation.Beginning, "Yetiformula");
-            CardDescriptionNew.AddTextToCardDescription(text, CardDescriptionNew.TextLocation.Beginning, "Yetiformulaa");
-            CardDescriptionNew.AddTextToCardDescription(text, CardDescriptionNew.TextLocation.Beginning, "Yetiformulab");
+            // apply patches            
 
             harmony.PatchAll();
         }
