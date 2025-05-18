@@ -1,0 +1,15 @@
+{
+    "BaseSkin": true,
+    "PerkLevel": 0,
+    "SkinGO": "skindrogg",
+    "SkinID": "yetibase",
+    "SkinName": "Default",
+    "SkinOrder": 0,
+    "SkinSubclass": "yeti",
+    "Sku": "",
+    "SpritePortrait": "droggPortrait",
+    "SpritePortraitGrande": "droggPortraitGrande",
+    "SpriteSilueta": "droggSilueta",
+    "SpriteSiluetaGrande": "droggSiluetaGrande",
+    "SteamStat": ""
+}

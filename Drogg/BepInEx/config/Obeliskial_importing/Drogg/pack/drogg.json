@@ -1,0 +1,15 @@
+{
+    "Card0": "yetiavalanche",
+    "Card1": "icicle",
+    "Card2": "icebarrier",
+    "Card3": "frostnova",
+    "Card4": "frostbolt",
+    "Card5": "",
+    "CardSpecial0": "",
+    "CardSpecial1": "",
+    "PackClass": "mage",
+    "PackID": "drogg",
+    "PackName": "Drogg",
+    "PerkList": [],
+    "RequiredClass": "yeti"
+}
