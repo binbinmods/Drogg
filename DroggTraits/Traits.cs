@@ -85,7 +85,7 @@ namespace Drogg
                 string traitName = traitData.TraitName;
                 string traitId = _trait;
 
-                if (CanIncrementTraitActivations(traitId) && _castedCard.HasCardType(Enums.CardType.Cold_Spell))
+                if (CanIncrementTraitActivations(traitId) && _castedCard.HasCardType(Enums.CardType.Cold_Spell))// && MatchManager.Instance.energyJustWastedByHero > 0)
                 {
                     LogDebug($"Handling Trait {traitId}: {traitName}");
                     _character.ModifyEnergy(1);
@@ -105,7 +105,7 @@ namespace Drogg
                 string traitName = traitData.TraitName;
                 string traitId = _trait;
 
-                if (CanIncrementTraitActivations(traitId) && _castedCard.HasCardType(Enums.CardType.Cold_Spell))
+                if (CanIncrementTraitActivations(traitId) && _castedCard.HasCardType(Enums.CardType.Cold_Spell))// && MatchManager.Instance.energyJustWastedByHero > 0)
                 {
                     LogDebug($"Handling Trait {traitId}: {traitName}");
                     List<Character> highestBlockHeroes = [];
@@ -129,10 +129,10 @@ namespace Drogg
                     }
                     else
                     {
-                        GetRandomCharacter(highestBlockHeroes.ToArray());
+                        highestBlockHero = GetRandomCharacter(highestBlockHeroes.ToArray());
                     }
-                    _character.ModifyEnergy(1);
-                    highestBlockHero.SetAuraTrait(_character, "fortify", 1);
+                    _character?.ModifyEnergy(1);
+                    highestBlockHero?.SetAuraTrait(_character, "fortify", 1);
                     IncrementTraitActivations(traitId);
                 }
             }
@@ -244,6 +244,52 @@ namespace Drogg
             {
                 LogDebug("CastCardPrefix - Not Cold Spell");
             }
+
+        }
+
+        [HarmonyPostfix]
+        [HarmonyPatch(typeof(CardData), "HasCardType")]
+        public static void HasCardTypePostfix(
+            CardData __instance,
+            ref bool __result,
+            Enums.CardType type)
+        {
+            if (!EventManager.Instance || !AtOManager.Instance || __instance == null)
+            {
+                return;
+            }
+
+            EventReplyData replySelected = Traverse.Create(EventManager.Instance).Field("replySelected").GetValue<EventReplyData>();
+            if (replySelected == null || replySelected.SsRollCard == Enums.CardType.None)
+            {
+                return;
+            }
+
+            LogDebug($"HasCardTypePostfix - Checking for Card type {type} in event for card {__instance.CardName}.");
+            int chosenInd = -1;
+
+            for (int index = 0; index < 4; ++index)
+            {
+                bool[] charRoll = Traverse.Create(EventManager.Instance).Field("charRoll").GetValue<bool[]>();
+                if (charRoll[index])
+                {
+                    chosenInd = index;
+                }
+            }
+
+            Hero hero = AtOManager.Instance.GetTeam()[chosenInd];
+            if (hero.HaveTrait(trait2a) && (type == Enums.CardType.Ranged_Attack || type == Enums.CardType.Attack) && __instance.HasCardType(Enums.CardType.Cold_Spell))
+            {
+                LogDebug($"HasCardTypePostfix - Adding Ranged Attack.");
+                __result = true;
+            }
+
+            if (hero.HaveTrait(trait2b) && type == Enums.CardType.Defense && __instance.HasCardType(Enums.CardType.Cold_Spell))
+            {
+                LogDebug($"HasCardTypePostfix - Adding Defense.");
+                __result = true;
+            }
+
 
         }
 
